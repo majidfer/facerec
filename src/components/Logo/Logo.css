@@ -1,7 +1,4 @@
 .logo {
-    background: linear-gradient(
-      90deg,
-      rgba(9, 9, 121, 1) 0%,
-      rgba(0, 212, 255, 1) 100%
-    );
-  }
+  background: rgb(169,229,187);
+  background: radial-gradient(circle, rgba(169,229,187,1) 26%, rgba(252,246,177,1) 100%); 
+}

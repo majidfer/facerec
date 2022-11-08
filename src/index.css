@@ -2,9 +2,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: rgb(252, 246, 177);
   background: linear-gradient(
     90deg,
-    rgba(9, 9, 121, 1) 0%,
-    rgba(0, 212, 255, 1) 100%
+    rgba(252, 246, 177, 1) 0%,
+    rgba(169, 229, 187, 1) 100%
   );
+}
+
+button {
+  cursor: pointer;
 }

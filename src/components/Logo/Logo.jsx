@@ -5,9 +5,9 @@ import "./Logo.css";
 
 const Logo = () => {
   return (
-    <div className="ma4 mt0 logo" style={{ height: "150px", width: "150px" }}>
-      <Tilt tiltEnable={false} scale={1.3} transitionSpeed={2500}>
-        <div className="b--dotted">
+    <div className="ma4 mt0 logo br4 shadow-1" style={{ height: "150px", width: "150px" }}>
+      <Tilt tiltEnable={false} scale={1.1} transitionSpeed={2500}>
+        <div>
           <img src={logo} alt="logo" />
         </div>
       </Tilt>
