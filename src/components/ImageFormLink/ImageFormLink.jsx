@@ -1,34 +1,65 @@
 import { React, useState } from "react";
-import Clarifai from "clarifai";
 import "./ImageFormLink.css";
 import FaceRecognition from "../FaceRecognition/FaceRecognition";
 
 const ImageFormLink = () => {
-  const app = new Clarifai.App({
-    apiKey: "cfce0f69a25f4045ac3b0c6a9d82f9e4",
-  });
-
   const [input, setInput] = useState("");
+
+  const USER_ID = "majidfer";
+  const PAT = "fdc38de6850d4e73ab7c5da36b369088";
+  const APP_ID = "my-first-application";
+  const MODEL_ID = "face-detection";
+  const MODEL_VERSION_ID = "6dc7e46bc9124c5c8824be4822abe105";
+  const IMAGE_URL = input;
+
   const [imageUrl, setImageUrl] = useState("");
 
-  const handleChange = (event) => {setInput(event.target.value)};
+  const handleChange = (event) => {
+    setInput(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     setImageUrl(input);
-    app.models
-      .predict(
-        Clarifai.GENERAL_MODEL,
-        "https://samples.clarifai.com/metro-north.jpg"
-      )
-      .then(
-        function (response) {
-          console.log(response);
+
+    const raw = JSON.stringify({
+      user_app_id: {
+        user_id: USER_ID,
+        app_id: APP_ID,
+      },
+      inputs: [
+        {
+          data: {
+            image: {
+              url: IMAGE_URL,
+            },
+          },
         },
-        function (error) {
-          console.log(error);
-        }
-      );
+      ],
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Key " + PAT,
+      },
+      body: raw,
+    };
+
+    fetch(
+      "https://api.clarifai.com/v2/models/" +
+        MODEL_ID +
+        "/versions/" +
+        MODEL_VERSION_ID +
+        "/outputs",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result.outputs[0].data.regions[0].region_info.bounding_box))
+      .catch((error) => console.log("error", error));
+
     setInput("");
   };
 
