@@ -13,6 +13,21 @@ const ImageFormLink = () => {
   const IMAGE_URL = input;
 
   const [imageUrl, setImageUrl] = useState("");
+  const [box, setBox] = useState({});
+
+  const calculateFaceBox = (data) => {
+    const clarifaiFace =
+      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - clarifaiFace.right_col * width,
+      bottomRow: height - clarifaiFace.bottom_row * height,
+    };
+  };
 
   const handleChange = (event) => {
     setInput(event.target.value);
@@ -39,7 +54,6 @@ const ImageFormLink = () => {
       ],
     });
 
-    
     const requestOptions = {
       method: "POST",
       headers: {
@@ -58,7 +72,9 @@ const ImageFormLink = () => {
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) => console.log(result.outputs[0].data.regions[0].region_info.bounding_box))
+      .then((result) => {
+        setBox(calculateFaceBox(result));
+      })
       .catch((error) => console.log("error", error));
 
     setInput("");
@@ -88,7 +104,7 @@ const ImageFormLink = () => {
           </div>
         </div>
       </form>
-      <FaceRecognition imageUrl={imageUrl} />
+      <FaceRecognition box={box} imageUrl={imageUrl} />
     </div>
   );
 };
