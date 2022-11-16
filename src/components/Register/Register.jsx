@@ -14,7 +14,7 @@ const Register = ({ onRouteChange }) => {
                 </label>
                 <input
                   className="pa2 input-reset ba b--black bg-transparent hover-bg-black hover-white w-100"
-                  type="name"
+                  type="text"
                   name="name"
                   id="name"
                 />
@@ -47,7 +47,7 @@ const Register = ({ onRouteChange }) => {
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 onClick={() => onRouteChange("home")}
                 type="submit"
-                value="Sign in"
+                value="Register"
               />
             </div>
           </form>
