@@ -1,11 +1,45 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 
 const SignIn = ({ onRouteChange }) => {
+  const [signInEmail, setsignInEmail] = useState("");
+  const [signInPassword, setsignInPassword] = useState("");
+
+  const onEmailChange = (event) => {
+    setsignInEmail(event.target.value);
+  };
+
+  const onPasswordChange = (event) => {
+    setsignInPassword(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: signInEmail, password: signInPassword }),
+    };
+
+    fetch("http://localhost:3000/signin", requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        data === "signing in" ? onRouteChange("home") : onRouteChange("signin");
+      });
+
+    
+    setsignInEmail("");
+    setsignInPassword("");
+  };
+
   return (
     <>
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-3 center">
         <main className="pa3 black-80">
-          <form className="measure">
+          <form className="measure" onSubmit={handleSubmit}>
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Sign In</legend>
               <div className="mt3">
@@ -17,6 +51,8 @@ const SignIn = ({ onRouteChange }) => {
                   type="email"
                   name="email-address"
                   id="email-address"
+                  value={signInEmail}
+                  onChange={onEmailChange}
                 />
               </div>
               <div className="mv3">
@@ -28,20 +64,26 @@ const SignIn = ({ onRouteChange }) => {
                   type="password"
                   name="password"
                   id="password"
+                  value={signInPassword}
+                  onChange={onPasswordChange}
                 />
               </div>
             </fieldset>
             <div className="">
               <input
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                onClick={() => onRouteChange("home")}
                 type="submit"
                 value="Sign in"
               />
             </div>
-              <div className="lh-copy mt3">
-                <p className="f4 link dim black db pointer" onClick={() => onRouteChange("register")}>Register</p>
-              </div>
+            <div className="lh-copy mt3">
+              <p
+                className="f4 link dim black db pointer"
+                onClick={() => onRouteChange("register")}
+              >
+                Register
+              </p>
+            </div>
           </form>
         </main>
       </article>
