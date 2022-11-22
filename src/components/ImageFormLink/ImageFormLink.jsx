@@ -63,6 +63,16 @@ const ImageFormLink = () => {
       body: raw,
     };
 
+    const apiRequestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    };
+
     fetch(
       "https://api.clarifai.com/v2/models/" +
         MODEL_ID +
@@ -74,6 +84,9 @@ const ImageFormLink = () => {
       .then((response) => response.json())
       .then((result) => {
         setBox(calculateFaceBox(result));
+        fetch("http://localhost:3000/image", apiRequestOptions)
+          .then((res) => res.json())
+          .then((count) => console.log(count));
       })
       .catch((error) => console.log("error", error));
 
