@@ -11,6 +11,13 @@ import Register from "./components/Register/Register";
 function App() {
   const [route, setRoute] = useState("signin");
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    email: "",
+    entries: 0,
+    joined: "",
+  });
 
   const onRouteChange = (route) => {
     if (route === "signin") {
@@ -21,20 +28,30 @@ function App() {
     setRoute(route);
   };
 
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    });
+  };
+
   return (
     <div className="App">
       <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
       <ParticlesBg color="#81D99C" type="cobweb" bg={true} />
       {route === "signin" ? (
-        <SignIn onRouteChange={onRouteChange} />
+        <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
       ) : route === "register" ? (
         <div>
-          <Register onRouteChange={onRouteChange} />
+          <Register loadUser={loadUser} onRouteChange={onRouteChange} />
         </div>
       ) : (
         <>
           <Logo />
-          <Rank />
+          <Rank name={user.name} entries={user.entries}/>
           <ImageFormLink />
         </>
       )}

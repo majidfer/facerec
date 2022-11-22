@@ -1,6 +1,6 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 
-const SignIn = ({ onRouteChange }) => {
+const SignIn = ({ loadUser, onRouteChange }) => {
   const [signInEmail, setsignInEmail] = useState("");
   const [signInPassword, setsignInPassword] = useState("");
 
@@ -15,7 +15,6 @@ const SignIn = ({ onRouteChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-
     const requestOptions = {
       method: "POST",
       headers: {
@@ -26,11 +25,13 @@ const SignIn = ({ onRouteChange }) => {
 
     fetch("http://localhost:3000/signin", requestOptions)
       .then((res) => res.json())
-      .then((data) => {
-        data === "signing in" ? onRouteChange("home") : onRouteChange("signin");
+      .then((user) => {
+        if (user.id) {
+          loadUser(user);
+          onRouteChange("home");
+        }
       });
 
-    
     setsignInEmail("");
     setsignInPassword("");
   };

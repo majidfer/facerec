@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Register = ({ onRouteChange }) => {
+const Register = ({ loadUser, onRouteChange }) => {
   const [regName, setRegName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPass, setRegPass] = useState("");
@@ -33,7 +33,12 @@ const Register = ({ onRouteChange }) => {
 
     fetch("http://localhost:3000/register", requestOptions)
       .then((res) => res.json())
-      .then((data) => {console.log(data); onRouteChange("home")});
+      .then((user) => {
+        if (user) {
+          loadUser(user);
+          onRouteChange("home");
+        }
+      });
   };
 
   return (
@@ -53,6 +58,7 @@ const Register = ({ onRouteChange }) => {
                   name="name"
                   id="name"
                   onChange={onRegNameChange}
+                  required
                 />
               </div>
               <div className="mt3">
@@ -65,6 +71,7 @@ const Register = ({ onRouteChange }) => {
                   name="email-address"
                   id="email-address"
                   onChange={onRegNEmailChange}
+                  required
                 />
               </div>
               <div className="mv3">
@@ -77,13 +84,13 @@ const Register = ({ onRouteChange }) => {
                   name="password"
                   id="password"
                   onChange={onRegPassChange}
+                  required
                 />
               </div>
             </fieldset>
             <div className="">
               <input
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                // onClick={() => onRouteChange("home")}
                 type="submit"
                 value="Register"
               />
