@@ -9,7 +9,6 @@ import { useState } from "react";
 import Register from "./components/Register/Register";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 
-
 function App() {
   const [route, setRoute] = useState("signin");
   const [input, setInput] = useState("");
@@ -59,6 +58,8 @@ function App() {
     };
   };
 
+  // console.log(user);
+
   const onImageSubmit = (event) => {
     event.preventDefault();
 
@@ -94,7 +95,9 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        id: user.id,
+      }),
     };
 
     fetch(
@@ -110,11 +113,11 @@ function App() {
         setBox(calculateFaceBox(result));
         fetch("http://localhost:3000/image", apiRequestOptions)
           .then((res) => res.json())
-          .then((count) => console.log(count));
+          .then((count) => setUser({...user, entries: count}));
       })
       .catch((error) => console.log("error", error));
 
-    setInput("");
+    // setInput("");
   };
 
   const loadUser = (data) => {
@@ -141,7 +144,10 @@ function App() {
         <>
           <Logo />
           <Rank name={user.name} entries={user.entries} />
-          <ImageFormLink onUrlChange={onUrlChange} onImageSubmit={onImageSubmit} />
+          <ImageFormLink
+            onUrlChange={onUrlChange}
+            onImageSubmit={onImageSubmit}
+          />
           <FaceRecognition box={box} imageUrl={imageUrl} />
         </>
       )}
