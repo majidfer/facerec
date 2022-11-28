@@ -21,9 +21,11 @@ function App() {
     joined: "",
   });
 
+  console.log(route);
   const onRouteChange = (route) => {
     if (route === "signin") {
       setIsSignedIn(false);
+      setImageUrl("");
     } else if (route === "home") {
       setIsSignedIn(true);
     }
@@ -113,7 +115,7 @@ function App() {
         setBox(calculateFaceBox(result));
         fetch("http://localhost:3000/image", apiRequestOptions)
           .then((res) => res.json())
-          .then((count) => setUser({...user, entries: count}));
+          .then((count) => setUser({ ...user, entries: count }));
       })
       .catch((error) => console.log("error", error));
 
