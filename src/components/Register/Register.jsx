@@ -34,7 +34,7 @@ const Register = ({ loadUser, onRouteChange }) => {
     fetch("http://localhost:3000/register", requestOptions)
       .then((res) => res.json())
       .then((user) => {
-        if (user) {
+        if (user.id) {
           loadUser(user);
           onRouteChange("home");
         }
