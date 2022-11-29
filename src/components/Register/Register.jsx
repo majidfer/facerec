@@ -19,6 +19,9 @@ const Register = ({ loadUser, onRouteChange }) => {
 
   const handleRegSubmit = (event) => {
     event.preventDefault();
+    if (!regEmail || !regName || !regPass) {
+      return;
+    }
     const requestOptions = {
       method: "POST",
       headers: {

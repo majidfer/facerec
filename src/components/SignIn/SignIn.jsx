@@ -15,7 +15,9 @@ const SignIn = ({ loadUser, onRouteChange }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    if (!signInEmail || !signInPassword) {
+      return;
+    }
     const requestOptions = {
       method: "POST",
       headers: {
@@ -59,6 +61,7 @@ const SignIn = ({ loadUser, onRouteChange }) => {
                   onChange={onEmailChange}
                   autoFocus
                   ref={ref}
+                  required
                 />
               </div>
               <div className="mv3">
@@ -72,6 +75,7 @@ const SignIn = ({ loadUser, onRouteChange }) => {
                   id="password"
                   value={signInPassword}
                   onChange={onPasswordChange}
+                  required
                 />
               </div>
             </fieldset>
