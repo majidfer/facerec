@@ -21,7 +21,6 @@ function App() {
     joined: "",
   });
 
-  console.log(route);
   const onRouteChange = (route) => {
     if (route === "signin") {
       setIsSignedIn(false);
@@ -59,8 +58,6 @@ function App() {
       bottomRow: height - clarifaiFace.bottom_row * height,
     };
   };
-
-  // console.log(user);
 
   const onImageSubmit = (event) => {
     event.preventDefault();
@@ -117,7 +114,7 @@ function App() {
           .then((res) => res.json())
           .then((count) => setUser({ ...user, entries: count }));
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("Something gone wrong:", error));
 
     // setInput("");
   };
