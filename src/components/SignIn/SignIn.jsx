@@ -1,8 +1,9 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 
 const SignIn = ({ loadUser, onRouteChange }) => {
   const [signInEmail, setsignInEmail] = useState("");
   const [signInPassword, setsignInPassword] = useState("");
+  const ref = useRef(null);
 
   const onEmailChange = (event) => {
     setsignInEmail(event.target.value);
@@ -29,11 +30,13 @@ const SignIn = ({ loadUser, onRouteChange }) => {
         if (user.id) {
           loadUser(user);
           onRouteChange("home");
+        } else {
+          ref.current.focus();
         }
       });
 
-    setsignInEmail("");
     setsignInPassword("");
+    setsignInEmail("");
   };
 
   return (
@@ -54,6 +57,8 @@ const SignIn = ({ loadUser, onRouteChange }) => {
                   id="email-address"
                   value={signInEmail}
                   onChange={onEmailChange}
+                  autoFocus
+                  ref={ref}
                 />
               </div>
               <div className="mv3">
