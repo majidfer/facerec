@@ -63,7 +63,7 @@ function App() {
       }),
     };
 
-    fetch("http://localhost:3000/imageurl", requestOption)
+    fetch("https://victorious-raincoat-worm.cyclic.app/imageurl", requestOption)
       .then((response) => response.json())
       .then((result) => {
         setBox(calculateFaceBox(result));
@@ -78,7 +78,7 @@ function App() {
           }),
         };
         
-        fetch("http://localhost:3000/image", apiRequestOptions)
+        fetch("https://victorious-raincoat-worm.cyclic.app/image", apiRequestOptions)
           .then((res) => res.json())
           .then((count) => setUser({ ...user, entries: count }));
       })
