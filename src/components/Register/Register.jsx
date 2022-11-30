@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const Register = ({ loadUser, onRouteChange }) => {
   const [regName, setRegName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPass, setRegPass] = useState("");
+  const [isError, setError] = useState(false);
+  const emailRef = useRef(null);
 
   const onRegNameChange = (event) => {
     setRegName(event.target.value);
@@ -34,12 +36,20 @@ const Register = ({ loadUser, onRouteChange }) => {
       }),
     };
 
-    fetch("http://localhost:3000/register", requestOptions)
+    fetch(
+      "https://victorious-raincoat-worm.cyclic.app/register",
+      requestOptions
+    )
       .then((res) => res.json())
       .then((user) => {
         if (user.id) {
           loadUser(user);
           onRouteChange("home");
+        } else {
+          setError(true);
+          setRegEmail("");
+          setRegPass("");
+          emailRef.current.focus();
         }
       });
   };
@@ -50,7 +60,7 @@ const Register = ({ loadUser, onRouteChange }) => {
         <main className="pa3 black-80">
           <form className="measure" onSubmit={handleRegSubmit}>
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f1 fw6 ph0 mh0">Register</legend>
+              <legend className="f1 fw6 ph0 mh0 center">Register</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">
                   Name
@@ -68,13 +78,20 @@ const Register = ({ loadUser, onRouteChange }) => {
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">
                   Email
                 </label>
+                {isError === true && (
+                  <legend className="mt3 dark-red fw6">
+                    Please use another email or try again later
+                  </legend>
+                )}
                 <input
                   className="pa2 input-reset ba b--black bg-transparent hover-bg-black hover-white w-100"
                   type="email"
                   name="email-address"
                   id="email-address"
                   onChange={onRegNEmailChange}
+                  value={regEmail}
                   required
+                  ref={emailRef}
                 />
               </div>
               <div className="mv3">
@@ -88,6 +105,7 @@ const Register = ({ loadUser, onRouteChange }) => {
                   id="password"
                   onChange={onRegPassChange}
                   required
+                  value={regPass}
                 />
               </div>
             </fieldset>

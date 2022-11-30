@@ -3,6 +3,7 @@ import { React, useState, useRef } from "react";
 const SignIn = ({ loadUser, onRouteChange }) => {
   const [signInEmail, setsignInEmail] = useState("");
   const [signInPassword, setsignInPassword] = useState("");
+  const [isError, setError] = useState(false);
   const ref = useRef(null);
 
   const onEmailChange = (event) => {
@@ -26,7 +27,7 @@ const SignIn = ({ loadUser, onRouteChange }) => {
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
     };
 
-    fetch("http://localhost:3000/signin", requestOptions)
+    fetch("https://victorious-raincoat-worm.cyclic.app/signin", requestOptions)
       .then((res) => res.json())
       .then((user) => {
         if (user.id) {
@@ -34,6 +35,7 @@ const SignIn = ({ loadUser, onRouteChange }) => {
           onRouteChange("home");
         } else {
           ref.current.focus();
+          setError(true);
         }
       });
 
@@ -47,7 +49,12 @@ const SignIn = ({ loadUser, onRouteChange }) => {
         <main className="pa3 black-80">
           <form className="measure" onSubmit={handleSubmit}>
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+              <legend className="f1 fw6 ph0 mh0 center">Sign In</legend>
+              {isError === true && (
+                <legend className="mt3 dark-red fw6">
+                  Your email and password doesn't match
+                </legend>
+              )}
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">
                   Email
