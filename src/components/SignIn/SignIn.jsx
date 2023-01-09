@@ -1,9 +1,11 @@
 import { React, useState, useRef } from "react";
+import { PropagateLoader, PulseLoader, SyncLoader } from "react-spinners";
 
 const SignIn = ({ loadUser, onRouteChange }) => {
   const [signInEmail, setsignInEmail] = useState("");
   const [signInPassword, setsignInPassword] = useState("");
   const [isError, setError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const ref = useRef(null);
 
   const onEmailChange = (event) => {
@@ -19,6 +21,9 @@ const SignIn = ({ loadUser, onRouteChange }) => {
     if (!signInEmail || !signInPassword) {
       return;
     }
+
+    setLoading(true);
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -33,6 +38,7 @@ const SignIn = ({ loadUser, onRouteChange }) => {
         if (user.id) {
           loadUser(user);
           onRouteChange("home");
+          setLoading(false);
         } else {
           ref.current.focus();
           setError(true);
@@ -54,6 +60,11 @@ const SignIn = ({ loadUser, onRouteChange }) => {
                 <legend className="mt3 dark-red fw6">
                   Your email and password doesn't match
                 </legend>
+              )}
+              {isLoading === true && (
+                <div className="center">
+                  <PulseLoader color="#3f5ee5" margin={9}/>
+                </div>
               )}
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">
