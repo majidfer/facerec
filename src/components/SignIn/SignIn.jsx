@@ -1,5 +1,5 @@
 import { React, useState, useRef } from "react";
-import { PropagateLoader, PulseLoader, SyncLoader } from "react-spinners";
+import { PulseLoader } from "react-spinners";
 
 const SignIn = ({ loadUser, onRouteChange }) => {
   const [signInEmail, setsignInEmail] = useState("");
