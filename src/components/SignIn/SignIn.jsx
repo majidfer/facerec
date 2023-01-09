@@ -42,6 +42,7 @@ const SignIn = ({ loadUser, onRouteChange }) => {
         } else {
           ref.current.focus();
           setError(true);
+          setLoading(false);
         }
       });
 
